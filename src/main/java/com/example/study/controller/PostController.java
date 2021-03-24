@@ -17,13 +17,4 @@ public class PostController {
     public SearchParam postMethod(@RequestBody SearchParam searchParam){
         return searchParam;
     }
-
-    @PutMapping
-    public void put(){
-    }
-
-    @PatchMapping
-    public void patch(){
-
-    }
 }
