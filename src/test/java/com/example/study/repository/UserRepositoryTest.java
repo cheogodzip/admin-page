@@ -20,11 +20,11 @@ public class UserRepositoryTest extends StudyApplicationTests{
     @Test
     public void create() {
 
-        String account = "Test03";
-        String password = "Test03";
+        String account = "Test04";
+        String password = "Test04";
         String status = "REGISTERED";
         String email = "Test01@gmail.com";
-        String phoneNumber = "010-1111-3333";
+        String phoneNumber = "010-1111-4444";
         LocalDateTime registeredAt = LocalDateTime.now();
         LocalDateTime createdAt = LocalDateTime.now();
         String createdBy = "AdminServer";
@@ -48,6 +48,8 @@ public class UserRepositoryTest extends StudyApplicationTests{
         User newUser = userRepository.save(user);
 
         Assertions.assertNotNull(newUser);
+
+        userRepository.save(newUser);
     }
 
     @Test
