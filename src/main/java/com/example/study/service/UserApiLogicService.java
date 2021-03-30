@@ -25,21 +25,21 @@ public class UserApiLogicService implements CrudInterface<UserApiRequest, UserAp
     @Override
     public Header<UserApiResponse> create(Header<UserApiRequest> request) {
 
-        // 1.
+        // 1. request data 가져오기
         UserApiRequest userApiRequest = request.getData();
 
-        // 2.
+        // 2. User 생성
         User user = User.builder()
                 .account(userApiRequest.getAccount())
                 .password(userApiRequest.getPassword())
-                .status("REGISERED")
+                .status("REGISTERED")
                 .phoneNumber(userApiRequest.getPhoneNumber())
                 .email(userApiRequest.getEmail())
                 .registeredAt(LocalDateTime.now())
                 .build();
         User newUser = userRepository.save(user);
 
-        // 3.
+        // 3. UserApiResponse 리턴
         return response(newUser);
 
     }
@@ -60,7 +60,7 @@ public class UserApiLogicService implements CrudInterface<UserApiRequest, UserAp
     }
 
     private Header<UserApiResponse> response(User user){
-        // user -> userApiResponse 만들어서 리턴ㅁ
+        // user -> userApiResponse 만들어서 리턴
         UserApiResponse userApiResponse = UserApiResponse.builder()
                 .id(user.getId())
                 .account(user.getAccount())
