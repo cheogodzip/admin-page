@@ -1,13 +1,12 @@
 package com.example.study.service;
 
 import com.example.study.ifs.CrudInterface;
-import com.example.study.model.entity.User;
+import com.example.study.model.entity.Item;
 import com.example.study.model.network.Header;
 import com.example.study.model.network.request.ItemApiRequest;
-import com.example.study.model.network.request.UserApiRequest;
 import com.example.study.model.network.response.ItemApiResponse;
-import com.example.study.model.network.response.UserApiResponse;
-import com.example.study.repository.UserRepository;
+import com.example.study.repository.ItemRepository;
+import com.example.study.repository.PartnerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -18,97 +17,104 @@ import java.util.Optional;
 public class ItemApiLogicService implements CrudInterface<ItemApiRequest, ItemApiResponse> {
 
     @Autowired
-    private UserRepository userRepository;
+    private PartnerRepository partnerRepository;
 
-    // 1. request data 가져오기
-    // 2. user 생성
-    // 3. 생성된 데이터 -> UserApiResponse return
+    @Autowired
+    private ItemRepository itemRepository;
 
     @Override
-    public Header<UserApiResponse> create(Header<UserApiRequest> request) {
+    public Header<ItemApiResponse> create(Header<ItemApiRequest> request) {
 
         // 1. request data 가져오기
-        UserApiRequest userApiRequest = request.getData();
+        ItemApiRequest body = request.getData();
 
-        // 2. User 생성
-        User user = User.builder()
-                .account(userApiRequest.getAccount())
-                .password(userApiRequest.getPassword())
-                .status("REGISTERED")
-                .phoneNumber(userApiRequest.getPhoneNumber())
-                .email(userApiRequest.getEmail())
+        // 2. Item 생성
+        Item item = Item.builder()
+                .status(body.getStatus())
+                .name(body.getName())
+                .title(body.getTitle())
+                .content(body.getContent())
+                .price(body.getPrice())
+                .brandName(body.getBrandName())
                 .registeredAt(LocalDateTime.now())
+                .partner(partnerRepository.getOne(body.getPartnerId()))
                 .build();
-        User newUser = userRepository.save(user);
 
-        // 3. UserApiResponse 리턴
-        return response(newUser);
+        Item newItem = itemRepository.save(item);
+
+        // 3. 생성된 데이터 -> ItemApiResponse return
+        return response(newItem);
 
     }
 
     @Override
-    public Header<UserApiResponse> read(Long id) {
-        // id -> repository getOne, getById
-        // user -> userApiResponse return
-        return userRepository.findById(id)
-            .map(user -> response(user)) // user가 있다면
-            .orElseGet(() -> Header.ERROR("데이터 없음")
-            );
+    public Header<ItemApiResponse> read(Long id) {
+//        // id -> repository getOne, getById
+//        // user -> userApiResponse return
+//        return itemRepository.findById(id)
+//            .map(user -> response(user)) // user가 있다면
+//            .orElseGet(() -> Header.ERROR("데이터 없음")
+//            );
+        return null;
     }
 
     @Override
-    public Header<UserApiResponse> update(Header<UserApiRequest> request) {
-        // data를 가져오고
-        UserApiRequest userApiRequest = request.getData();
-
-        // id로 데이터를 찾고
-        Optional<User> optional = userRepository.findById(userApiRequest.getId());
-
-        return optional.map(user -> {
-            // 업데이트
-            user.setAccount(userApiRequest.getAccount())
-                    .setPassword(userApiRequest.getPassword())
-                    .setStatus(userApiRequest.getStatus())
-                    .setPhoneNumber(userApiRequest.getPhoneNumber())
-                    .setEmail(userApiRequest.getEmail())
-                    .setRegisteredAt(userApiRequest.getRegisteredAt())
-                    .setUnregisteredAt(userApiRequest.getUnregisteredAt())
-                    ;
-            return user;
-        })
-        .map(user -> userRepository.save(user)) // update. 새로운 user 리턴
-        .map(updateUser -> response(updateUser)) // 응답 api 메시지 만들기
-        .orElseGet(() -> Header.ERROR("데이터 없음"));
+    public Header<ItemApiResponse> update(Header<ItemApiRequest> request) {
+//        // data를 가져오고
+//        ItemApiRequest itemApiRequest = request.getData();
+//
+//        // id로 데이터를 찾고
+//        Optional<User> optional = userRepository.findById(itemApiRequest.getId());
+//
+//        return optional.map(user -> {
+//            // 업데이트
+//            item.(itemApiRequest.getAccount())
+//                    .setPassword(itemApiRequest.getPassword())
+//                    .setStatus(itemApiRequest.getStatus())
+//                    .setPhoneNumber(itemApiRequest.getPhoneNumber())
+//                    .setEmail(itemApiRequest.getEmail())
+//                    .setRegisteredAt(itemApiRequest.getRegisteredAt())
+//                    .setUnregisteredAt(itemApiRequest.getUnregisteredAt())
+//                    ;
+//            return user;
+//        })
+//        .map(user -> userRepository.save(user)) // update. 새로운 user 리턴
+//        .map(updateUser -> response(updateUser)) // 응답 api 메시지 만들기
+//        .orElseGet(() -> Header.ERROR("데이터 없음"));
+        return null;
     }
 
     @Override
     public Header delete(Long id) {
-        // id로 repository에서 user를 찾고
-        Optional<User> optional = userRepository.findById(id);
-
-        // delete, 메시지 반환
-        return optional.map(user -> {
-            userRepository.delete(user);
-
-            return Header.OK();
-        })
-        .orElseGet(() -> Header.ERROR("데이터 없음"));
+//        // id로 repository에서 user를 찾고
+//        Optional<Item> optional = itemRepository.findById(id);
+//
+//        // delete, 메시지 반환
+//        return optional.map(user -> {
+//            userRepository.delete(user);
+//
+//            return Header.OK();
+//        })
+//        .orElseGet(() -> Header.ERROR("데이터 없음"));
+        return null;
     }
 
-    private Header<UserApiResponse> response(User user){
-        // user -> userApiResponse 만들어서 리턴
-        UserApiResponse userApiResponse = UserApiResponse.builder()
-                .id(user.getId())
-                .account(user.getAccount())
-                .password(user.getPassword()) // 암호화하거나 해야 함
-                .email(user.getEmail())
-                .phoneNumber(user.getPhoneNumber())
-                .status(user.getStatus())
-                .registeredAt(user.getRegisteredAt())
-                .unregisteredAt(user.getUnregisteredAt())
+    private Header<ItemApiResponse> response(Item item){
+        // item -> itemApiResponse 만들어서 리턴
+        ItemApiResponse body = ItemApiResponse.builder()
+                .id(item.getId())
+                .status(item.getStatus())
+                .name(item.getName())
+                .title(item.getTitle())
+                .content(item.getContent())
+                .price(item.getPrice())
+                .brandName(item.getBrandName())
+                .registeredAt(item.getRegisteredAt())
+                .unregisteredAt(item.getUnregisteredAt())
+                .partnerId(item.getPartner().getId())
                 .build();
         
         // Header  + data 리턴
-        return Header.OK(userApiResponse);
+        return Header.OK(body);
     }
 }
