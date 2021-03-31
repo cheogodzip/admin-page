@@ -49,13 +49,11 @@ public class ItemApiLogicService implements CrudInterface<ItemApiRequest, ItemAp
 
     @Override
     public Header<ItemApiResponse> read(Long id) {
-//        // id -> repository getOne, getById
-//        // user -> userApiResponse return
-//        return itemRepository.findById(id)
-//            .map(user -> response(user)) // user가 있다면
-//            .orElseGet(() -> Header.ERROR("데이터 없음")
-//            );
-        return null;
+        // id -> repository getOne, getById
+        // item -> itemApiResponse return
+        return itemRepository.findById(id)
+            .map(item -> response(item)) // item이 있다면
+            .orElseGet(() -> Header.ERROR("데이터 없음"));
     }
 
     @Override
