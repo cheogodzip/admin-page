@@ -58,28 +58,28 @@ public class ItemApiLogicService implements CrudInterface<ItemApiRequest, ItemAp
 
     @Override
     public Header<ItemApiResponse> update(Header<ItemApiRequest> request) {
-//        // data를 가져오고
-//        ItemApiRequest itemApiRequest = request.getData();
-//
-//        // id로 데이터를 찾고
-//        Optional<User> optional = userRepository.findById(itemApiRequest.getId());
-//
-//        return optional.map(user -> {
-//            // 업데이트
-//            item.(itemApiRequest.getAccount())
-//                    .setPassword(itemApiRequest.getPassword())
-//                    .setStatus(itemApiRequest.getStatus())
-//                    .setPhoneNumber(itemApiRequest.getPhoneNumber())
-//                    .setEmail(itemApiRequest.getEmail())
-//                    .setRegisteredAt(itemApiRequest.getRegisteredAt())
-//                    .setUnregisteredAt(itemApiRequest.getUnregisteredAt())
-//                    ;
-//            return user;
-//        })
-//        .map(user -> userRepository.save(user)) // update. 새로운 user 리턴
-//        .map(updateUser -> response(updateUser)) // 응답 api 메시지 만들기
-//        .orElseGet(() -> Header.ERROR("데이터 없음"));
-        return null;
+        // data 가져오기
+        ItemApiRequest body = request.getData();
+
+        // id로 데이터를 찾고
+        Optional<Item> optional = itemRepository.findById(body.getId());
+
+        return optional.map(entityItem -> {
+            // 업데이트
+            entityItem.setStatus(body.getStatus())
+                    .setName(body.getName())
+                    .setTitle(body.getTitle())
+                    .setContent(body.getContent())
+                    .setPrice(body.getPrice())
+                    .setBrandName(body.getBrandName())
+                    .setRegisteredAt(body.getRegisteredAt())
+                    .setUnregisteredAt(body.getUnregisteredAt())
+                    ;
+            return entityItem;
+        })
+        .map(newEntityItem -> itemRepository.save(newEntityItem)) // update. 새로운 item 리턴
+        .map(item -> response(item)) // 응답 api 메시지 만들기
+        .orElseGet(() -> Header.ERROR("데이터 없음"));
     }
 
     @Override
