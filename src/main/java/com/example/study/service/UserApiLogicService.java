@@ -6,7 +6,6 @@ import com.example.study.model.network.Header;
 import com.example.study.model.network.request.UserApiRequest;
 import com.example.study.model.network.response.UserApiResponse;
 import com.example.study.repository.UserRepository;
-import jdk.javadoc.internal.doclets.formats.html.markup.Head;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

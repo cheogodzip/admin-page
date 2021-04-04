@@ -44,4 +44,5 @@ public class UserApiController implements CrudInterface<UserApiRequest, UserApiR
         log.info("delete : {}", id);
         return userApiLogicService.delete(id);
     }
+
 }
