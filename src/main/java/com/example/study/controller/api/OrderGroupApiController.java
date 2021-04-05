@@ -24,18 +24,10 @@ public class OrderGroupApiController implements CrudInterface<OrderGroupApiReque
         return orderGroupApiLogicService.create(request);
     }
 
-//    @Override
-//    @GetMapping("{id}") // /api/orderGroup/{id} - 사용자가 id를 이미 알고 있어야 한다.
-//    public Header<OrderGroupApiResponse> read(@PathVariable(name = "id") Long id) {
-////        log.info("read id : {}", id);
-////        return orderGroupApiLogicService.read(id);
-//        return null;
-//    }
-
     @Override
     @GetMapping("{id}")
-    public Header<OrderGroupApiResponse> read(Long id) {
-        return null;
+    public Header<OrderGroupApiResponse> read(@PathVariable Long id) {
+        return orderGroupApiLogicService.read(id);
     }
 
     @Override
