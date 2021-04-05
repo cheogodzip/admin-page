@@ -74,7 +74,7 @@ public class OrderGroupApiLogicService implements CrudInterface<OrderGroupApiReq
                             .setUser(userRepository.getOne(body.getUserId()));
                     return orderGroup;
                 })
-                .map(changeOrderGroup -> orderGroupRepository.save(changeOrderGroup))
+                .map(updateOrderGroup -> orderGroupRepository.save(updateOrderGroup))
                 .map(this::response)
                 .orElseGet(() -> Header.ERROR("데이터 없음"));
     }
