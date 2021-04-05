@@ -33,9 +33,7 @@ public class OrderGroupApiController implements CrudInterface<OrderGroupApiReque
     @Override
     @PutMapping("") // /api/orderGroup
     public Header<OrderGroupApiResponse> update(@RequestBody Header<OrderGroupApiRequest> request) {
-//        log.info("{}");
-//        return orderGroupApiLogicService.update(request);
-        return null;
+        return orderGroupApiLogicService.update(request);
     }
 
     @Override

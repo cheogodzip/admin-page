@@ -21,10 +21,6 @@ public class OrderGroupApiLogicService implements CrudInterface<OrderGroupApiReq
     @Autowired
     private UserRepository userRepository;
 
-    // 1. request data 가져오기
-    // 2. user 생성
-    // 3. 생성된 데이터 -> UserApiResponse return
-
     @Override
     public Header<OrderGroupApiResponse> create(Header<OrderGroupApiRequest> request) {
 
@@ -59,28 +55,28 @@ public class OrderGroupApiLogicService implements CrudInterface<OrderGroupApiReq
 
     @Override
     public Header<OrderGroupApiResponse> update(Header<OrderGroupApiRequest> request) {
-//        // data를 가져오고
-//        UserApiRequest userApiRequest = request.getData();
-//
-//        // id로 데이터를 찾고
-//        Optional<User> optional = userRepository.findById(userApiRequest.getId());
-//
-//        return optional.map(user -> {
-//            // 업데이트
-//            user.setAccount(userApiRequest.getAccount())
-//                    .setPassword(userApiRequest.getPassword())
-//                    .setStatus(userApiRequest.getStatus())
-//                    .setPhoneNumber(userApiRequest.getPhoneNumber())
-//                    .setEmail(userApiRequest.getEmail())
-//                    .setRegisteredAt(userApiRequest.getRegisteredAt())
-//                    .setUnregisteredAt(userApiRequest.getUnregisteredAt())
-//                    ;
-//            return user;
-//        })
-//        .map(user -> userRepository.save(user)) // update. 새로운 user 리턴
-//        .map(updateUser -> response(updateUser)) // 응답 api 메시지 만들기
-//        .orElseGet(() -> Header.ERROR("데이터 없음"));
-        return null;
+
+        OrderGroupApiRequest body = request.getData();
+
+        return orderGroupRepository.findById(body.getId())
+                .map(orderGroup -> {
+
+                    orderGroup
+                            .setStatus(body.getStatus())
+                            .setOrderType(body.getOrderType())
+                            .setRevAddress(body.getRevAddress())
+                            .setRevName(body.getRevName())
+                            .setPaymentType(body.getPaymentType())
+                            .setTotalPrice(body.getTotalPrice())
+                            .setTotalQuantity(body.getTotalQuantity())
+                            .setOrderAt(body.getOrderAt())
+                            .setArrivalDate(body.getArrivalDate())
+                            .setUser(userRepository.getOne(body.getUserId()));
+                    return orderGroup;
+                })
+                .map(changeOrderGroup -> orderGroupRepository.save(changeOrderGroup))
+                .map(this::response)
+                .orElseGet(() -> Header.ERROR("데이터 없음"));
     }
 
     @Override
