@@ -81,17 +81,13 @@ public class OrderGroupApiLogicService implements CrudInterface<OrderGroupApiReq
 
     @Override
     public Header delete(Long id) {
-//        // id로 repository에서 user를 찾고
-//        Optional<User> optional = userRepository.findById(id);
-//
-//        // delete, 메시지 반환
-//        return optional.map(user -> {
-//            userRepository.delete(user);
-//
-//            return Header.OK();
-//        })
-//        .orElseGet(() -> Header.ERROR("데이터 없음"));
-        return null;
+
+        return orderGroupRepository.findById(id)
+                .map(orderGroup -> {
+                    orderGroupRepository.delete(orderGroup);
+                    return Header.OK();
+                })
+                .orElseGet(() -> Header.ERROR("데이터 없음"));
     }
 
     private Header<OrderGroupApiResponse> response(OrderGroup orderGroup){
