@@ -1,11 +1,9 @@
 package com.example.study.service;
 
-import com.example.study.ifs.CrudInterface;
 import com.example.study.model.entity.Item;
 import com.example.study.model.network.Header;
 import com.example.study.model.network.request.ItemApiRequest;
 import com.example.study.model.network.response.ItemApiResponse;
-import com.example.study.repository.ItemRepository;
 import com.example.study.repository.PartnerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,9 +16,6 @@ public class ItemApiLogicService extends BaseService<ItemApiRequest, ItemApiResp
 
     @Autowired
     private PartnerRepository partnerRepository;
-
-    @Autowired
-    private ItemRepository itemRepository;
 
     @Override
     public Header<ItemApiResponse> create(Header<ItemApiRequest> request) {
@@ -40,7 +35,7 @@ public class ItemApiLogicService extends BaseService<ItemApiRequest, ItemApiResp
                 .partner(partnerRepository.getOne(body.getPartnerId()))
                 .build();
 
-        Item newItem = itemRepository.save(item);
+        Item newItem = baseRepository.save(item);
 
         // 3. 생성된 데이터 -> ItemApiResponse return
         return response(newItem);
@@ -51,7 +46,7 @@ public class ItemApiLogicService extends BaseService<ItemApiRequest, ItemApiResp
     public Header<ItemApiResponse> read(Long id) {
         // id -> repository getOne, getById
         // item -> itemApiResponse return
-        return itemRepository.findById(id)
+        return baseRepository.findById(id)
             .map(this::response) // item이 있다면
             .orElseGet(() -> Header.ERROR("데이터 없음"));
     }
@@ -62,7 +57,7 @@ public class ItemApiLogicService extends BaseService<ItemApiRequest, ItemApiResp
         ItemApiRequest body = request.getData();
 
         // id로 데이터를 찾고
-        Optional<Item> optional = itemRepository.findById(body.getId());
+        Optional<Item> optional = baseRepository.findById(body.getId());
 
         return optional.map(entityItem -> {
             // 업데이트
@@ -77,7 +72,7 @@ public class ItemApiLogicService extends BaseService<ItemApiRequest, ItemApiResp
                     ;
             return entityItem;
         })
-        .map(newEntityItem -> itemRepository.save(newEntityItem)) // update. 새로운 item 리턴
+        .map(newEntityItem -> baseRepository.save(newEntityItem)) // update. 새로운 item 리턴
         .map(item -> response(item)) // 응답 api 메시지 만들기
         .orElseGet(() -> Header.ERROR("데이터 없음"));
     }
@@ -86,9 +81,9 @@ public class ItemApiLogicService extends BaseService<ItemApiRequest, ItemApiResp
     public Header delete(Long id) {
         // id로 repository에서 item 찾고
         // delete, 메시지 반환
-        return itemRepository.findById(id)
+        return baseRepository.findById(id)
             .map(item -> {
-                itemRepository.delete(item);
+                baseRepository.delete(item);
                 return Header.OK();
         })
         .orElseGet(() -> Header.ERROR("데이터 없음"));
