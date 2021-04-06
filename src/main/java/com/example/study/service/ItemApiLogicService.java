@@ -52,7 +52,7 @@ public class ItemApiLogicService implements CrudInterface<ItemApiRequest, ItemAp
         // id -> repository getOne, getById
         // item -> itemApiResponse return
         return itemRepository.findById(id)
-            .map(item -> response(item)) // item이 있다면
+            .map(this::response) // item이 있다면
             .orElseGet(() -> Header.ERROR("데이터 없음"));
     }
 
