@@ -1,7 +1,6 @@
 package com.example.study.service;
 
 import com.example.study.ifs.CrudInterface;
-import com.example.study.model.network.Header;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Component;
