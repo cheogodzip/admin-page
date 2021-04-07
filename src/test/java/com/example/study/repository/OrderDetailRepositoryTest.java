@@ -5,7 +5,6 @@ import com.example.study.model.entity.OrderDetail;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import sun.jvm.hotspot.utilities.Assert;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -20,7 +19,7 @@ public class OrderDetailRepositoryTest extends StudyApplicationTests {
 
         OrderDetail orderDetail = new OrderDetail();
 
-        orderDetail.setStatus("WAITING");
+        orderDetail.setStatus("ORDERING");
         orderDetail.setArrivalDate(LocalDateTime.now().plusDays(2));
         orderDetail.setQuantity(1);
         orderDetail.setTotalPrice(BigDecimal.valueOf(900000));
