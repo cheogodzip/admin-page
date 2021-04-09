@@ -5,12 +5,14 @@ import com.example.study.model.network.Header;
 import com.example.study.model.network.Pagination;
 import com.example.study.model.network.request.OrderGroupApiRequest;
 import com.example.study.model.network.response.OrderGroupApiResponse;
+import com.example.study.repository.SettlementRepository;
 import com.example.study.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -20,6 +22,9 @@ public class OrderGroupApiLogicService extends BaseService<OrderGroupApiRequest,
 
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private SettlementRepository settlementRepository;
 
     @Override
     public Header<OrderGroupApiResponse> create(Header<OrderGroupApiRequest> request) {
@@ -41,6 +46,10 @@ public class OrderGroupApiLogicService extends BaseService<OrderGroupApiRequest,
 
 
         OrderGroup newOrderGroup = baseRepository.save(orderGroup);
+
+        // Settlement 업데이트
+        BigDecimal before = settlementRepository.getOne(body.getUserId()).getPrice();
+        settlementRepository.getOne(body.getUserId()).setPrice(before.add(body.getTotalPrice()));
 
         return Header.OK(response(newOrderGroup));
     }
