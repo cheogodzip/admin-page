@@ -28,4 +28,28 @@ public class PageController {
                 .addObject("code", "user")
                 ;
     }
+
+    @RequestMapping("/orderGroup")
+    public ModelAndView orderGroup() {
+        return new ModelAndView("/pages/orderGroup")
+                .addObject("menuList", adminMenuService.getAdminMenu())
+                .addObject("code", "orderGroup")
+                ;
+    }
+
+    @RequestMapping("/item")
+    public ModelAndView item() {
+        return new ModelAndView("/pages/item")
+                .addObject("menuList", adminMenuService.getAdminMenu())
+                .addObject("code", "item")
+                ;
+    }
+
+    @RequestMapping("/partner")
+    public ModelAndView partner() {
+        return new ModelAndView("/pages/partner")
+                .addObject("menuList", adminMenuService.getAdminMenu())
+                .addObject("code", "partner")
+                ;
+    }
 }
