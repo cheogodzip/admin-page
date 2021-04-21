@@ -98,6 +98,7 @@ public class PartnerApiLogicService extends BaseService<PartnerApiRequest, Partn
                 .callCenter(partner.getCallCenter())
                 .partnerNumber(partner.getPartnerNumber())
                 .businessNumber(partner.getBusinessNumber())
+                .ceoName(partner.getCeoName())
                 .registeredAt(partner.getRegisteredAt())
                 .unregisteredAt(partner.getUnregisteredAt())
                 .categoryId(partner.getCategory().getId())
