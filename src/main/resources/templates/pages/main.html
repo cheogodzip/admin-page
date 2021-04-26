@@ -22,15 +22,15 @@
 
     <!-- Contents-->
     <div class="content-wrapper">
-        <section class="content-header">
+        <section class="content-header" id="itemList">
             <div class="row">
                 <div class="col-lg-3 col-xs-6">
                     <!-- small box -->
                     <div class="small-box bg-aqua">
                         <div class="inner">
-                            <h3>150(의미X)</h3>
+                            <h3>{{itemList.order_group_count}}</h3>
 
-                            <p>신규 주문(api 만들기)</p>
+                            <p>주문</p>
                         </div>
                         <div class="icon">
                             <i class="fa fa-shopping-cart"></i>
@@ -45,9 +45,9 @@
                     <!-- small box -->
                     <div class="small-box bg-green">
                         <div class="inner">
-                            <h3>53</h3>
+                            <h3>{{itemList.user_count}}</h3>
 
-                            <p>신규 유저</p>
+                            <p>고객</p>
                         </div>
                         <div class="icon">
                             <i class="ion ion-stats-bars"></i>
@@ -62,9 +62,9 @@
                     <!-- small box -->
                     <div class="small-box bg-yellow">
                         <div class="inner">
-                            <h3>44</h3>
+                            <h3>{{itemList.partner_count}}</h3>
 
-                            <p>신규 파트너</p>
+                            <p>파트너</p>
                         </div>
                         <div class="icon">
                             <i class="ion ion-person-add"></i>
@@ -79,9 +79,9 @@
                     <!-- small box -->
                     <div class="small-box bg-red">
                         <div class="inner">
-                            <h3>65</h3>
+                            <h3>{{itemList.item_count}}</h3>
 
-                            <p>신규 상품</p>
+                            <p>상품</p>
                         </div>
                         <div class="icon">
                             <i class="ion ion-pie-graph"></i>
